@@ -32,6 +32,8 @@
         margin-top: 10px;
       }
 
+
+
       #qidnum{
         display: none;
       }
@@ -42,7 +44,7 @@
       //$("#qidnum").val("<?php echo ($question['qid']); ?>");
       </script>  
 
-<script type="text/javascript">
+      <script type="text/javascript">
 
       function agr(aid, atype){
 
@@ -62,7 +64,7 @@
           $("#"+aid+'-'+atype).children(".badge").text(num-1);
         }
 
-  $.ajax(
+        $.ajax(
       { //一个Ajax过程 
         "type": "GET",  //以post方式与后台沟通
     "url" : "http://localhost/app/Answers/agreeAnswer", //与此php页面沟通
@@ -70,82 +72,82 @@
     
     "success":function(){
        //可以考虑在其中加入更新当前赞同或反对数的操作
-    }
-  });
-};
+     }
+   });
+      };
 
-        function vot(){
-          var num=parseInt($("#qvote").children(".badge").text());
-          var stat=$("#qvote").hasClass('active');
-          if(stat==1){
-            $("#qvote").children(".badge").text(num-1);
-          }else{
-            $("#qvote").children(".badge").text(num+1);
-          }
+      function vot(){
+        var num=parseInt($("#qvote").children(".badge").text());
+        var stat=$("#qvote").hasClass('active');
+        if(stat==1){
+          $("#qvote").children(".badge").text(num-1);
+        }else{
+          $("#qvote").children(".badge").text(num+1);
+        }
 
-          $.ajax(
-            "type":"GET",
-            "url":"http://localhost/app/Answers/votequestion",
-            "data":"qid="+<?php echo ($question['qid']); ?>+"&ty="+stat,
-            "success":function(){
+        $.ajax({
+          "type":"GET",
+          "url":"http://localhost/app/Answers/votequestion",
+          "data":"qid="+<?php echo ($question['qid']); ?>+"&ty="+stat,
+          "success":function(){
               //...
             }
-            )
-        };
+          });
+      };
 
-</script>
-</head>
-<body>
+      </script>
+    </head>
+    <body>
 
- <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
-   <div class="container">
-     <div class="navbar-header">
-      <button type="button" class="navbar-toggle" data-toggle="collapse" 
-      data-target="#example-navbar-collapse">
-      <span class="sr-only">切换导航</span>
-      <span class="icon-bar"></span>
-      <span class="icon-bar"></span>
-      <span class="icon-bar"></span>
-    </button>
-    <a class="navbar-brand" href="#">FAQBBS</a>
+     <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+       <div class="container">
+         <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" 
+          data-target="#example-navbar-collapse">
+          <span class="sr-only">切换导航</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="#">FAQBBS</a>
 
-  </div>
-  <div class="collapse navbar-collapse" id="example-navbar-collapse">
-    <ul class="nav navbar-nav">
-
-      <form class="navbar-form navbar-left" role="search">
-
-       <div class="form-group">
-
-        <div class="btn-group" data-toggle="buttons">
-         <label class="btn btn-default">
-          <input type="radio" name="options" id="option1">用户
-        </label>
-        <label class="btn btn-default">
-          <input type="radio" name="options" id="option2">问题
-        </label>
       </div>
-      <input type="text" class="form-control" placeholder="查点什么...">
+      <div class="collapse navbar-collapse" id="example-navbar-collapse">
+        <ul class="nav navbar-nav">
 
-      <button class="btn btn-default" type="submit">
-       搜索
-     </button>
-   </div>
- </form>  
+          <form class="navbar-form navbar-left" role="search">
 
- <li class="active"><a href="#">首页</a></li>
- <li><a href="#">留言板</a></li>
-</ul>
-<ul class="nav navbar-nav navbar-right user">
-  <li class="dropdown">
-    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><?php echo ($userdata['username']); ?><span class="caret"></span></a>
-    <ul class="dropdown-menu pull-right" role="menu">
-      <li><a href="#">我的主页</a></li>
-      <li><a href="#">注销</a></li>
+           <div class="form-group">
 
-    </ul>
-  </li>
-</ul>
+            <div class="btn-group" data-toggle="buttons">
+             <label class="btn btn-default">
+              <input type="radio" name="options" id="option1">用户
+            </label>
+            <label class="btn btn-default">
+              <input type="radio" name="options" id="option2">问题
+            </label>
+          </div>
+          <input type="text" class="form-control" placeholder="查点什么...">
+
+          <button class="btn btn-default" type="submit">
+           搜索
+         </button>
+       </div>
+     </form>  
+
+     <li class="active"><a href="#">首页</a></li>
+     <li><a href="#">留言板</a></li>
+   </ul>
+   <ul class="nav navbar-nav navbar-right user">
+    <li class="dropdown">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown"><?php echo ($userdata['username']); ?><span class="caret"></span></a>
+      <ul class="dropdown-menu pull-right" role="menu">
+        <li><a href="#">我的主页</a></li>
+        <li><a href="#">注销</a></li>
+
+      </ul>
+    </li>
+  </ul>
 </div>
 </div>
 </nav>
@@ -159,15 +161,15 @@
       <h3>问题</h3>
       <hr>
       <div class="question-summary">
-        
-            <div class="btn-group" >
-               <?php if($is_votequestion): ?><button type="button" data-toggle="button" class="btn btn-default active" onclick="vot()" id="qvote"><strong>VOTES</strong> <span class="badge"><?php echo ($question["votes"]); ?></span></button>
-              
-              <?php else: ?>
-                <button type="button" data-toggle="button" class="btn btn-default" onclick="vot()" id="qvote"><strong>VOTES</strong> <span class="badge"><?php echo ($question["votes"]); ?></span></button><?php endif; ?>
-              <button type="button" data-toggle="button" class="btn btn-default" disabled='disabled'><strong>ANSWERS</strong><span class="badge"><?php echo ($question["answers"]); ?></span></button>
-            </div>
-        <p></p>
+
+        <div class="btn-group" >
+         <?php if($is_votequestion): ?><button type="button" data-toggle="button" class="btn btn-default active" onclick="vot()" id="qvote"><strong>VOTES</strong> <span class="badge"><?php echo ($question["votes"]); ?></span></button>
+
+          <?php else: ?>
+          <button type="button" data-toggle="button" class="btn btn-default" onclick="vot()" id="qvote"><strong>VOTES</strong> <span class="badge"><?php echo ($question["votes"]); ?></span></button><?php endif; ?>
+        <button type="button" data-toggle="button" class="btn btn-default" disabled='disabled'><strong>ANSWERS</strong><span class="badge"><?php echo ($question["answers"]); ?></span></button>
+      </div>
+      <p></p>
       
 
       <div class="panel panel-default">
@@ -189,6 +191,40 @@
     <p></p>
     <h3>回答</h3>
     <hr>
+    <!--若已经设置了标准答案，则显示之-->
+    <div id="acanswer">
+      <?php if(isset($acanswer)): ?><h4>已采纳答案</h4>
+        <hr>
+        <div class="acanswer">
+          <?php if(isset($uservote_info[$acanswer['aid']]) AND $uservote_info[$acanswer['aid']]): ?><div class="btn-group" >
+              <button type="button"  data-toggle="button" class="btn btn-default active other" onclick="agr(<?php echo ($acanswer['aid']); ?>,0)" id='<?php echo ($acanswer['aid']); ?>-0'><strong>AGREE</strong> <span class="badge"><?php echo ($acanswer["agree"]); ?></span></button>
+              <button type="button" data-toggle="button" class="btn btn-default other" onclick="agr(<?php echo ($acanswer['aid']); ?>,1)" id='<?php echo ($acanswer['aid']); ?>-1'><strong>DISAGREE</strong><span class="badge"><?php echo ($acanswer["disagree"]); ?></span></button>
+            </div>
+            <?php elseif(isset($uservote_info[$acanswer['aid']]) AND $uservote_info[$acanswer['aid']] != true): ?>
+
+            <div class="btn-group" >
+              <button type="button" data-toggle="button" class="btn btn-default other" onclick="agr(<?php echo ($acanswer['aid']); ?>,0)" id='<?php echo ($acanswer['aid']); ?>-0'><strong>AGREE</strong> <span class="badge"><?php echo ($acanswer["agree"]); ?></span></button>
+              <button type="button" data-toggle="button" class="btn btn-default active other" onclick="agr(<?php echo ($acanswer['aid']); ?>,1)" id='<?php echo ($acanswer['aid']); ?>-1'><strong>DISAGREE</strong><span class="badge"><?php echo ($acanswer["disagree"]); ?></span></button>
+            </div>
+            <?php else: ?>
+
+            <div class="btn-group">
+              <button type="button" data-toggle="button" class="btn btn-default other" onclick="agr(<?php echo ($acanswer['aid']); ?>,0)" id='<?php echo ($acanswer['aid']); ?>-0'><strong>AGREE</strong> <span class="badge"><?php echo ($acanswer["agree"]); ?></span></button>
+              <button type="button" data-toggle="button" class="btn btn-default other" onclick="agr(<?php echo ($acanswer['aid']); ?>,1)" id='<?php echo ($acanswer['aid']); ?>-1'><strong>DISAGREE</strong><span class="badge"><?php echo ($acanswer["disagree"]); ?></span></button>
+            </div><?php endif; ?>
+          <?php if($acanswer['uid'] == $_SESSION['uid']): ?><a href="#" class="users username">ME</a>
+            <?php else: ?>
+            <a href="#" class="users username">$acanswer['firstname'] $acanswer['lastname']</a><?php endif; ?>
+
+          <div class="panel panel-default answer-content">
+            <div class="panel-body">
+              <?php echo ($acanswer['content']); ?>
+            </div>
+          </div>
+
+        </div>
+        <hr><?php endif; ?>
+    </div>
     <div id="answers">
       <?php if(is_array($answers_array)): $i = 0; $__LIST__ = $answers_array;if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$vo): $mod = ($i % 2 );++$i;?><!--当回答为用户自己的回答时-->
         <?php if($vo['uid'] == $_SESSION['uid']): ?><div class='userown'>
@@ -197,87 +233,75 @@
               <button type="button" data-toggle="button" class="btn btn-default" disabled='disabled'><strong>DISAGREE</strong><span class="badge"><?php echo ($vo["disagree"]); ?></span></button>
             </div>
             <a href="#" class="users username">ME</a>
-
           </div>
 
           <?php else: ?>
           <div class='others' id='<?php echo ($vo['aid']); ?>'>
-            <?php if(isset($uservote_info[$vo['aid']]) AND $uservote_info[$vo['aid']]): ?><div class="btn-group" >
-            <button type="button"  data-toggle="button" class="btn btn-default active other" onclick="agr(<?php echo ($vo['aid']); ?>,0)" id='<?php echo ($vo['aid']); ?>-0'><strong>AGREE</strong> <span class="badge"><?php echo ($vo["agree"]); ?></span></button>
-            <button type="button" data-toggle="button" class="btn btn-default other" onclick="agr(<?php echo ($vo['aid']); ?>,1)" id='<?php echo ($vo['aid']); ?>-1'><strong>DISAGREE</strong><span class="badge"><?php echo ($vo["disagree"]); ?></span></button>
-          </div>
-          <?php elseif(isset($uservote_info[$vo['aid']]) AND $uservote_info[$vo['aid']] != true): ?>
-
             <div class="btn-group" >
-              <button type="button" data-toggle="button" class="btn btn-default other" onclick="agr(<?php echo ($vo['aid']); ?>,0)" id='<?php echo ($vo['aid']); ?>-0'><strong>AGREE</strong> <span class="badge"><?php echo ($vo["agree"]); ?></span></button>
-              <button type="button" data-toggle="button" class="btn btn-default active other" onclick="agr(<?php echo ($vo['aid']); ?>,1)" id='<?php echo ($vo['aid']); ?>-1'><strong>DISAGREE</strong><span class="badge"><?php echo ($vo["disagree"]); ?></span></button>
-            </div>
-            <?php else: ?>
-  
-            <div class="btn-group">
-              <button type="button" data-toggle="button" class="btn btn-default other" onclick="agr(<?php echo ($vo['aid']); ?>,0)" id='<?php echo ($vo['aid']); ?>-0'><strong>AGREE</strong> <span class="badge"><?php echo ($vo["agree"]); ?></span></button>
-              <button type="button" data-toggle="button" class="btn btn-default other" onclick="agr(<?php echo ($vo['aid']); ?>,1)" id='<?php echo ($vo['aid']); ?>-1'><strong>DISAGREE</strong><span class="badge"><?php echo ($vo["disagree"]); ?></span></button>
-            </div><?php endif; ?>
-          <a href="#" class="users otherusers"><?php echo ($vo['firstname']); ?> <?php echo ($vo['lastname']); ?></a>
+            <?php if(isset($uservote_info[$vo['aid']]) AND $uservote_info[$vo['aid']]): ?><button type="button"  data-toggle="button" class="btn btn-default active other" onclick="agr(<?php echo ($vo['aid']); ?>,0)" id='<?php echo ($vo['aid']); ?>-0'><strong>AGREE</strong> <span class="badge"><?php echo ($vo["agree"]); ?></span></button>
+                <button type="button" data-toggle="button" class="btn btn-default other" onclick="agr(<?php echo ($vo['aid']); ?>,1)" id='<?php echo ($vo['aid']); ?>-1'><strong>DISAGREE</strong><span class="badge"><?php echo ($vo["disagree"]); ?></span></button>
+            <?php elseif(isset($uservote_info[$vo['aid']]) AND $uservote_info[$vo['aid']] != true): ?>
+
+                <button type="button" data-toggle="button" class="btn btn-default other" onclick="agr(<?php echo ($vo['aid']); ?>,0)" id='<?php echo ($vo['aid']); ?>-0'><strong>AGREE</strong> <span class="badge"><?php echo ($vo["agree"]); ?></span></button>
+                <button type="button" data-toggle="button" class="btn btn-default active other" onclick="agr(<?php echo ($vo['aid']); ?>,1)" id='<?php echo ($vo['aid']); ?>-1'><strong>DISAGREE</strong><span class="badge"><?php echo ($vo["disagree"]); ?></span></button>
+            
+              <?php else: ?>
+
+              
+                <button type="button" data-toggle="button" class="btn btn-default other" onclick="agr(<?php echo ($vo['aid']); ?>,0)" id='<?php echo ($vo['aid']); ?>-0'><strong>AGREE</strong> <span class="badge"><?php echo ($vo["agree"]); ?></span></button>
+                <button type="button" data-toggle="button" class="btn btn-default other" onclick="agr(<?php echo ($vo['aid']); ?>,1)" id='<?php echo ($vo['aid']); ?>-1'><strong>DISAGREE</strong><span class="badge"><?php echo ($vo["disagree"]); ?></span></button><?php endif; ?>
+            <?php if($cansetAns): ?><button class="btn btn-default" id="submit-setacanswer">采纳</button><?php endif; ?>
+          </div>
+            <a href="#" class="users otherusers"><?php echo ($vo['firstname']); ?> <?php echo ($vo['lastname']); ?></a>
+            
 
 
-        </div><?php endif; ?>
-      <div class="panel panel-default answer-content">
-        <div class="panel-body">
-          <?php echo ($vo['content']); ?>
-<!--
-          <p><img alt="四代目_背影天王.jpg" src="/app/upload/image/20141030/1414684523998336.jpg" title="1414684523998336.jpg"/>怎么样，嘿嘿，<span style="text-decoration: underline;">新人求关注~~</span></p>
-          <p>下面我来说说我的看法</p>
-          <ol class=" list-paddingleft-2" style="list-style-type: decimal;">
-            <li><p>这几天香港闹这么凶其实很大程度上是个别反动分子策动的，从很多地方可以看出其实香港大部分市民是<span style="text-decoration: underline;">不赞成游行的</span></p></li>
-            <li><p><span style="text-decoration: none;">我是来攒经验的</span></p></li>
-            <li><p><span style="text-decoration: none;">啦啦啦啦啦啦</span><br/></p></li>
-          </ol>
-          --> 
-        </div>
-      </div><?php endforeach; endif; else: echo "" ;endif; ?>
-  </div>
-
-  <h4>我来回答：</h4>
-  <hr>
-  <form action="http://localhost/app/Answers/uploadAnswer" method="post" name="answerquestion" role="form">
-    <!-- 加载编辑器的容器 -->
-    <input id="qidnum" type="text" name="qid" value=<?php echo ($question['qid']); ?>>
-    <script id="container" name="content" type="text/plain">
-    </script>
-    <button class="btn btn-default" type="submit" id="submit-answer">提交回答</button>
-  </form> 
-
-</div><!-- questionlist-main -->
+          </div><?php endif; ?>
+        <div class="panel panel-default answer-content">
+          <div class="panel-body">
+            <?php echo ($vo['content']); ?>
+          </div>
+        </div><?php endforeach; endif; else: echo "" ;endif; ?>
+    </div>
+    <?php if($notown): ?><h4>我来回答：</h4>
+      <hr>
+      <form action="http://localhost/app/Answers/uploadAnswer" method="post" name="answerquestion" role="form">
+        <!-- 加载编辑器的容器 -->
+        <input id="qidnum" type="text" name="qid" value=<?php echo ($question['qid']); ?>>
+        <script id="container" name="content" type="text/plain">
+        </script>
+        <button class="btn btn-default" type="submit" id="submit-answer">提交回答</button>
+      </form><?php endif; ?>
+  </div><!-- questionlist-main -->
 
 
-<div class="col-sm-3 col-sm-offset-1 blog-sidebar">
-  <div class="sidebar-module sidebar-module-inset">
-    <form role="form" action="http://localhost/app/AskQuestion" method="post">
-      <button type="submit" class="btn btn-default btn-lg">提问</button>
-    </form>
-  </div>
-  <hr>
-  <div class="sidebar-module userinfo">
-    <ul class="list-group">
-      <li class="list-group-item">
-        <span class="badge"><?php echo ($userdata['uid']); ?></span>
-        ID
-      </li>
-      <li class="list-group-item">
-        <span class="badge"><?php echo ($userdata['email']); ?></span>
-        EMAIL
-      </li>
-      <li class="list-group-item">
-        <span class="badge"><?php echo ($userdata['score']); ?></span>
-        积分
-      </li>
-    </ul>           
-  </div>
-  <div class="sidebar-module">
+  <div class="col-sm-3 col-sm-offset-1 blog-sidebar">
+    <div class="sidebar-module sidebar-module-inset">
+      <form role="form" action="http://localhost/app/AskQuestion" method="post">
+        <button type="submit" class="btn btn-default btn-lg">提问</button>
+      </form>
+    </div>
+    <hr>
+    <div class="sidebar-module userinfo">
+      <ul class="list-group">
+        <li class="list-group-item">
+          <span class="badge"><?php echo ($userdata['uid']); ?></span>
+          ID
+        </li>
+        <li class="list-group-item">
+          <span class="badge"><?php echo ($userdata['email']); ?></span>
+          EMAIL
+        </li>
+        <li class="list-group-item">
+          <span class="badge"><?php echo ($userdata['score']); ?></span>
+          积分
+        </li>
+      </ul>           
+    </div>
+    <div class="sidebar-module">
 
-  </div>
-</div><!-- /.blog-sidebar -->
+    </div>
+  </div><!-- /.blog-sidebar -->
 
 </div><!-- /.row -->
 
@@ -299,7 +323,7 @@
 <!-- 实例化编辑器 -->
 <script type="text/javascript">
 
-  var editor = UE.getEditor('container');
+var editor = UE.getEditor('container');
 </script>
 
 

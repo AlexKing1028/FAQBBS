@@ -1,10 +1,30 @@
 <?php
 	class AnswersModel extends Model{
+		//返回数组将包含采纳答案和其他答案两项，分开存储
 		public function getAnswersOfQuestion($questionid){
-			$Answer_model=new Model('answer');
-			$answers_array=$Answer_model->join('user ON user.uid=answer.uid')->where("qid=$questionid")->field('aid,answer.uid,agree,disagree,firstname,lastname,content')->select();
-//伪造数据
+			$Question_model=new Model('question');
+			$aids=$Question_model->where("qid=$questionid")->field('aid')->select();
 			
+			$aid=$aids[0]['aid'];
+			//dump($aid);
+			$Answer_model=new Model('answer');
+			$result['acanswer']=null;
+//若未设置答案
+
+			if(isset($aid) && intval($aid)>=0){
+//			if(false){
+				$acanswers=$Answer_model->join('user ON user.uid=answer.uid')->where("aid=$aid")->field('aid,answer.uid,agree,disagree,firstname,lastname,content')->select();
+				//dump($acanswers);
+				$result['acanswer']=$acanswers[0];
+				$answers_array=$Answer_model->join('user ON user.uid=answer.uid')->where("qid=$questionid and aid<>$aid")->field('aid,answer.uid,agree,disagree,firstname,lastname,content')->select();
+				$result['otheranswers']=$answers_array;
+			}else{
+				$answers_array=$Answer_model->join('user ON user.uid=answer.uid')->where("qid=$questionid")->field('aid,answer.uid,agree,disagree,firstname,lastname,content')->select();
+				dump($answers_array);
+				$result['otheranswers']=$answers_array;				
+			}
+//伪造数据
+				
 			for ($i=1; $i <15 ; $i++) { 
 				# code...
 				$answer=array(
@@ -18,8 +38,8 @@
 					"lastname"=>"shit",
 					"uid"=>strval(10086+$i),
 				);
-				$answers_array[$i]=$answer;
+				$result['otheranswers'][$i]=$answer;
 			}
-			return $answers_array;
+			return $result;
 		}
 	}

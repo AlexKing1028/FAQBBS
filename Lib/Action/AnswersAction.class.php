@@ -11,22 +11,38 @@
 		}
 
 		protected function answersOfQuestion($questionid){
+			$uid=$_SESSION['uid'];
+
 			//问题数据
 			$Question_model=new QuestionModel();
 			$question=$Question_model->getOneQuestion($questionid);
 			$this->assign('question',$question);
-			dump($question);
+			//dump($question);
+
+			$notown=true;
+			if($question['uid']==$uid){
+				$notown=false;
+			}
+			$this->assign('notown',$notown);
 
 			//回答数据
 			$Answer_model=new AnswersModel();
 			$answers=$Answer_model->getAnswersOfQuestion($questionid);
-			$this->assign('answers_array',$answers);
-			dump($answers[0]);
+			$this->assign('answers_array',$answers['otheranswers']);
+			$this->assign('acanswer',$answers['acanswer']);
+			//dump($answers);
+			//dump($answers[0]);
 			//$this->assign('ans1',$answers[0]);
+
+			//是否显示采纳答案按钮
+			$cansetAns=false;
+			if($question['uid']==$uid && !isset($answers['acanswer'])){
+				$cansetAns=true;
+			}
+			$this->assign('cansetAns',$cansetAns);
 
 			//需要返回该用户对此问题的答案的投票或者回答
 			$User_angree_model=new Model('agreeans');
-			$uid=$_SESSION['uid'];
 			$user_answers_votes=$User_angree_model->where("uid=$uid and qid=$questionid")->select('aid','isagree');
 			//仅仅是test……
 			$user_answers_votes[1]=array(
@@ -52,6 +68,7 @@
 			}else{
 				$this->assign('is_votequestion', false);
 			}
+
 
 			$this->display('Answers:answers');
 		}
@@ -94,5 +111,8 @@
 			$this->answersOfQuestion($data['qid']);
 		}
 
+		public function setAcceptedAnswer(){
+
+		}
 
 	}
