@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Bootstrap 101 Template</title>
+
+  <!-- Bootstrap -->
+  <link href="http://localhost/app/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <script type="text/javascript" src="http://localhost/app/jquery-1.11.1.js"></script>
+
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="http://cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="http://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+      <![endif]-->
+      <style type="text/css">
+      body { padding-top: 70px; } 
+
+      .users{
+        float: right;
+      }   
+      
+      .answer-content{
+        margin-top: 5px;
+      }
+
+      #submit-answer{
+        float: right;
+        margin-top: 10px;
+      }
+
+      #qidnum{
+        display: none;
+      }
+      </style>
+      <script type="text/javascript">
+
+      window.UEDITOR_HOME_URL='http://localhost/app/ueditor/';
+      //$("#qidnum").val("{$question['qid']}");
+      </script>  
+
+<script type="text/javascript">
+
+      function agr(aid, atype){
+
+        var ensure=1;
+        if(!$("#"+aid+'-'+atype).hasClass('active')){
+          ensure=0;
+          if($("#"+aid+'-'+(1-atype)).hasClass('active')){
+            $("#"+aid+'-'+(1-atype)).button('toggle');
+
+            var num=parseInt($("#"+aid+'-'+(1-atype)).children(".badge").text());
+            $("#"+aid+'-'+(1-atype)).children(".badge").text(num-1);    
+          }
+          var num=parseInt($("#"+aid+'-'+atype).children(".badge").text());
+          $("#"+aid+'-'+atype).children(".badge").text(num+1);
+        }else{
+          var num=parseInt($("#"+aid+'-'+atype).children(".badge").text());
+          $("#"+aid+'-'+atype).children(".badge").text(num-1);
+        }
+
+  $.ajax(
+      { //一个Ajax过程 
+        "type": "GET",  //以post方式与后台沟通
+    "url" : "http://localhost/app/Answers/agreeAnswer", //与此php页面沟通
+    "data": "aid="+aid+"&atype="+atype+"&es="+ensure+"&qid="+{$question['qid']}, 
+    
+    "success":function(){
+       //可以考虑在其中加入更新当前赞同或反对数的操作
+    }
+  });
+};
+
+        function vot(){
+          var num=parseInt($("#qvote").children(".badge").text());
+          var stat=$("#qvote").hasClass('active');
+          if(stat==1){
+            $("#qvote").children(".badge").text(num-1);
+          }else{
+            $("#qvote").children(".badge").text(num+1);
+          }
+
+          $.ajax(
+            "type":"GET",
+            "url":"http://localhost/app/Answers/votequestion",
+            "data":"qid="+{$question['qid']}+"&ty="+stat,
+            "success":function(){
+              //...
+            }
+            )
+        };
+
+</script>
+</head>
+<body>
+
+ <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+   <div class="container">
+     <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" 
+      data-target="#example-navbar-collapse">
+      <span class="sr-only">切换导航</span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </button>
+    <a class="navbar-brand" href="#">FAQBBS</a>
+
+  </div>
+  <div class="collapse navbar-collapse" id="example-navbar-collapse">
+    <ul class="nav navbar-nav">
+
+      <form class="navbar-form navbar-left" role="search">
+
+       <div class="form-group">
+
+        <div class="btn-group" data-toggle="buttons">
+         <label class="btn btn-default">
+          <input type="radio" name="options" id="option1">用户
+        </label>
+        <label class="btn btn-default">
+          <input type="radio" name="options" id="option2">问题
+        </label>
+      </div>
+      <input type="text" class="form-control" placeholder="查点什么...">
+
+      <button class="btn btn-default" type="submit">
+       搜索
+     </button>
+   </div>
+ </form>  
+
+ <li class="active"><a href="#">首页</a></li>
+ <li><a href="#">留言板</a></li>
+</ul>
+<ul class="nav navbar-nav navbar-right user">
+  <li class="dropdown">
+    <a href="#" class="dropdown-toggle" data-toggle="dropdown">{$userdata['username']}<span class="caret"></span></a>
+    <ul class="dropdown-menu pull-right" role="menu">
+      <li><a href="#">我的主页</a></li>
+      <li><a href="#">注销</a></li>
+
+    </ul>
+  </li>
+</ul>
+</div>
+</div>
+</nav>
+
+<div class="container content">
+
+
+  <div class="row">
+    <div class="col-sm-8 content-main">
+
+      <h3>问题</h3>
+      <hr>
+      <div class="question-summary">
+        
+            <div class="btn-group" >
+               <if condition="$is_votequestion">
+              <button type="button" data-toggle="button" class="btn btn-default active" onclick="vot()" id="qvote"><strong>VOTES</strong> <span class="badge">{$question["votes"]}</span></button>
+              
+              <else/>
+                <button type="button" data-toggle="button" class="btn btn-default" onclick="vot()" id="qvote"><strong>VOTES</strong> <span class="badge">{$question["votes"]}</span></button>
+              </if>
+              <button type="button" data-toggle="button" class="btn btn-default" disabled='disabled'><strong>ANSWERS</strong><span class="badge">{$question["answers"]}</span></button>
+            </div>
+        <p></p>
+      
+
+      <div class="panel panel-default">
+        <div class="panel-heading">{$question["title"]}</div>
+        <div class="panel-body">
+          {$question['content']}
+        </div>
+      </div>
+      <div class="question-label">
+        <?php foreach($question["types"] as $tag){
+          ?>
+          <button type="button" class="btn btn-default btn-xs"><strong><?php echo $tag; ?></strong></button>
+          <?php
+        }
+        ?>
+        
+      </div>
+
+      <hr>
+    </div>
+    <p></p>
+    <h3>回答</h3>
+    <hr>
+    <div id="answers">
+      <volist name="answers_array" id="vo">
+        <!--当回答为用户自己的回答时-->
+        <if condition="$vo['uid'] eq $_SESSION['uid']">
+          <div class='userown'>
+            <div class="btn-group">
+              <button type="button" data-toggle="button" class="btn btn-default" disabled='disabled'><strong>AGREE</strong> <span class="badge">{$vo["agree"]}</span></button>
+              <button type="button" data-toggle="button" class="btn btn-default" disabled='disabled'><strong>DISAGREE</strong><span class="badge">{$vo["disagree"]}</span></button>
+            </div>
+            <a href="#" class="users username">ME</a>
+
+          </div>
+
+          <else/>
+          <div class='others' id='{$vo['aid']}'>
+            <if condition="isset($uservote_info[$vo['aid']]) AND $uservote_info[$vo['aid']]">
+  
+
+          <div class="btn-group" >
+            <button type="button"  data-toggle="button" class="btn btn-default active other" onclick="agr({$vo['aid']},0)" id='{$vo['aid']}-0'><strong>AGREE</strong> <span class="badge">{$vo["agree"]}</span></button>
+            <button type="button" data-toggle="button" class="btn btn-default other" onclick="agr({$vo['aid']},1)" id='{$vo['aid']}-1'><strong>DISAGREE</strong><span class="badge">{$vo["disagree"]}</span></button>
+          </div>
+          <elseif condition="isset($uservote_info[$vo['aid']]) AND $uservote_info[$vo['aid']] neq true"/>
+
+            <div class="btn-group" >
+              <button type="button" data-toggle="button" class="btn btn-default other" onclick="agr({$vo['aid']},0)" id='{$vo['aid']}-0'><strong>AGREE</strong> <span class="badge">{$vo["agree"]}</span></button>
+              <button type="button" data-toggle="button" class="btn btn-default active other" onclick="agr({$vo['aid']},1)" id='{$vo['aid']}-1'><strong>DISAGREE</strong><span class="badge">{$vo["disagree"]}</span></button>
+            </div>
+            <else/>
+  
+            <div class="btn-group">
+              <button type="button" data-toggle="button" class="btn btn-default other" onclick="agr({$vo['aid']},0)" id='{$vo['aid']}-0'><strong>AGREE</strong> <span class="badge">{$vo["agree"]}</span></button>
+              <button type="button" data-toggle="button" class="btn btn-default other" onclick="agr({$vo['aid']},1)" id='{$vo['aid']}-1'><strong>DISAGREE</strong><span class="badge">{$vo["disagree"]}</span></button>
+            </div>
+          </if>
+          <a href="#" class="users otherusers">{$vo['firstname']} {$vo['lastname']}</a>
+
+
+        </div>
+      </if>
+      <div class="panel panel-default answer-content">
+        <div class="panel-body">
+          {$vo['content']}
+<!--
+          <p><img alt="四代目_背影天王.jpg" src="/app/upload/image/20141030/1414684523998336.jpg" title="1414684523998336.jpg"/>怎么样，嘿嘿，<span style="text-decoration: underline;">新人求关注~~</span></p>
+          <p>下面我来说说我的看法</p>
+          <ol class=" list-paddingleft-2" style="list-style-type: decimal;">
+            <li><p>这几天香港闹这么凶其实很大程度上是个别反动分子策动的，从很多地方可以看出其实香港大部分市民是<span style="text-decoration: underline;">不赞成游行的</span></p></li>
+            <li><p><span style="text-decoration: none;">我是来攒经验的</span></p></li>
+            <li><p><span style="text-decoration: none;">啦啦啦啦啦啦</span><br/></p></li>
+          </ol>
+          --> 
+        </div>
+      </div>
+    </volist>
+  </div>
+
+  <h4>我来回答：</h4>
+  <hr>
+  <form action="http://localhost/app/Answers/uploadAnswer" method="post" name="answerquestion" role="form">
+    <!-- 加载编辑器的容器 -->
+    <input id="qidnum" type="text" name="qid" value={$question['qid']}>
+    <script id="container" name="content" type="text/plain">
+    </script>
+    <button class="btn btn-default" type="submit" id="submit-answer">提交回答</button>
+  </form> 
+
+</div><!-- questionlist-main -->
+
+
+<div class="col-sm-3 col-sm-offset-1 blog-sidebar">
+  <div class="sidebar-module sidebar-module-inset">
+    <form role="form" action="http://localhost/app/AskQuestion" method="post">
+      <button type="submit" class="btn btn-default btn-lg">提问</button>
+    </form>
+  </div>
+  <hr>
+  <div class="sidebar-module userinfo">
+    <ul class="list-group">
+      <li class="list-group-item">
+        <span class="badge">{$userdata['uid']}</span>
+        ID
+      </li>
+      <li class="list-group-item">
+        <span class="badge">{$userdata['email']}</span>
+        EMAIL
+      </li>
+      <li class="list-group-item">
+        <span class="badge">{$userdata['score']}</span>
+        积分
+      </li>
+    </ul>           
+  </div>
+  <div class="sidebar-module">
+
+  </div>
+</div><!-- /.blog-sidebar -->
+
+</div><!-- /.row -->
+
+</div>
+
+
+
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="http://cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+
+
+<script src="http://localhost/app/bootstrap/js/bootstrap.min.js"></script>
+
+
+<script type="text/javascript" src="http://localhost/app/ueditor/ueditor.config.js"></script>
+<!-- 编辑器源码文件 -->
+<script type="text/javascript" src="http://localhost/app/ueditor/ueditor.all.js"></script>
+<!-- 实例化编辑器 -->
+<script type="text/javascript">
+
+  var editor = UE.getEditor('container');
+</script>
+
+
+</body>
+</html>
