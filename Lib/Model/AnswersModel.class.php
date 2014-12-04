@@ -6,7 +6,7 @@
 			$aids=$Question_model->where("qid=$questionid")->field('aid')->select();
 			
 			$aid=$aids[0]['aid'];
-			//dump($aid);
+			//dump($aids);
 			$Answer_model=new Model('answer');
 			$result['acanswer']=null;
 //若未设置答案
@@ -20,12 +20,12 @@
 				$result['otheranswers']=$answers_array;
 			}else{
 				$answers_array=$Answer_model->join('user ON user.uid=answer.uid')->where("qid=$questionid")->field('aid,answer.uid,agree,disagree,firstname,lastname,content')->select();
-				dump($answers_array);
+				//dump($answers_array);
 				$result['otheranswers']=$answers_array;				
 			}
 //伪造数据
-				
-			for ($i=1; $i <15 ; $i++) { 
+			/*	
+			for ($i=1; $i <4 ; $i++) { 
 				# code...
 				$answer=array(
 					"aid"=>strval(95270000+$i),
@@ -40,6 +40,7 @@
 				);
 				$result['otheranswers'][$i]=$answer;
 			}
+			*/
 			return $result;
 		}
 	}

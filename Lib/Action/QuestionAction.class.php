@@ -19,5 +19,19 @@
 		public function showTargetedQuestion($question_Info){
 			$this->assign('question_sum_array',$question_Info);
 			$this->display('Question:question');
+		}
+
+		public function questionList($info){
+			if(!is_null($_SESSION['uid'])){
+				$this->assign('userdata',$this->getUserData());				
+			}else{
+				$this->redirect('Member/member', array('cate_id' => 2), 1, 'sorry, you havent logged in.');
+			}
+			$Question=new QuestionModel();
+			//dump($info);
+			$questions=$Question->searchQuestion($info);
+			$this->assign('question_sum_array',$questions);
+
+			$this->display('Question:question');
 		}		
 	}

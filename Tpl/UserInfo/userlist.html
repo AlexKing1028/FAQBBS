@@ -23,7 +23,7 @@
     </head>
     <body>
 
-     <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
        <div class="container">
          <div class="navbar-header">
           <button type="button" class="navbar-toggle" data-toggle="collapse" 
@@ -33,7 +33,7 @@
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button>
-        <a class="navbar-brand" href="#">FAQBBS</a>
+        <a class="navbar-brand" href="{$_SESSION['urlroot']}Question">FAQBBS</a>
 
       </div>
       <div class="collapse navbar-collapse" id="example-navbar-collapse">
@@ -51,7 +51,7 @@
         <input type="radio" name="options" id="option2" value='1'>问题
       </label>
     </div>
-    <input type="text" class="form-control" placeholder="查点什么...">
+    <input type="text" class="form-control" name="searchinfo" placeholder="查点什么...">
 
     <button class="btn btn-default" type="submit">
      搜索
@@ -59,15 +59,13 @@
  </div>
 </form>  
 
-<li class="active"><a href="#">首页</a></li>
-<li><a href="#">留言板</a></li>
 </ul>
 <ul class="nav navbar-nav navbar-right user">
   <li class="dropdown">
     <a href="#" class="dropdown-toggle" data-toggle="dropdown">{$userdata['username']}<span class="caret"></span></a>
     <ul class="dropdown-menu pull-right" role="menu">
-      <li><a href="#">我的主页</a></li>
-      <li><a href="#">注销</a></li>
+      <li><a href="{$_SESSION['urlroot']}userinfo/{$_SESSION['uid']}">我的主页</a></li>
+      <li><a href="{$_SESSION['urlroot']}member/logout">注销</a></li>
 
     </ul>
   </li>
@@ -76,44 +74,40 @@
 </div>
 </nav>
 
+
 <div class="container content">
 
 
   <div class="row">
     <div class="col-sm-8 content-main">
+            <h3>用户</h3>
+          <hr>
+         
+        <volist name="userlist" id="vo">
+      <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title"><a href='{$_SESSION['urlroot']}{$vo['href']}'>
+                {$vo['firstname']}_{$vo['lastname']}
+              </a></h3>
+          </div>
+          
+          <ul class="list-group">
+            <li class="list-group-item">
+                <span class="badge">{$vo['uid']}</span>
+                ID
+              </li>
 
-      <h3>用户</h3>
-      <hr>
-<!--
-      <volist name="question_sum_array" id="vo">
-      <div class="question-summary">
-        <button class="btn btn-default btn-xs" disabled="disabled" type="button">
-          <strong>VOTES</strong> <span class="badge">{$vo["votes"]}</span>
-        </button>
-        <button class="btn btn-default btn-xs" disabled="disabled" type="button">
-          <strong>ANSWERS</strong><span class="badge">{$vo["answers"]}</span>
-        </button>
-        <p></p>
-        <div class="pure-question well well-sm">
-          <a href="{$vo["href"]}">{$vo["title"]}
-          </a>
-        </div>
-      
-        <div class="question-label">
-          <?php foreach($vo["types"] as $tag){
-            ?>
-          <button type="button" class="btn btn-default btn-xs"><strong><?php echo $tag; ?></strong></button>
-          <?php
-          }
-          ?>
-        </div>
-        <hr>
+            <li class="list-group-item">
+                <span class="badge">{$vo['email']}</span>
+                EMAIL
+              </li>
+            <li class="list-group-item">
+                <span class="badge">{$vo['score']}</span>
+                积分
+              </li>
+          </ul>    
       </div>
-    </volist>
-
-  -->
-
-    
+        </volist>    
     </div><!-- questionlist-main -->
 
 

@@ -1,0 +1,2 @@
+项目使用bootstrap开发前端，thinkphp作为框架，引入百度editor富文本编辑器作为论坛编辑器，同时使用了ajax，css sprite等技术。
+实现了所有基本功能，以及使用留言板功能。

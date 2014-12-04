@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Bootstrap 101 Template</title>
+  <title>FAQBBS</title>
 
   <!-- Bootstrap -->
   <link href="http://localhost/app/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -33,7 +33,7 @@
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button>
-        <a class="navbar-brand" href="#">FAQBBS</a>
+        <a class="navbar-brand" href="<?php echo ($_SESSION['urlroot']); ?>Question">FAQBBS</a>
 
       </div>
       <div class="collapse navbar-collapse" id="example-navbar-collapse">
@@ -51,7 +51,7 @@
         <input type="radio" name="options" id="option2" value='1'>问题
       </label>
     </div>
-    <input type="text" class="form-control" placeholder="查点什么...">
+    <input type="text" class="form-control" name="searchinfo" placeholder="查点什么...">
 
     <button class="btn btn-default" type="submit">
      搜索
@@ -59,15 +59,13 @@
  </div>
 </form>  
 
-<li class="active"><a href="#">首页</a></li>
-<li><a href="#">留言板</a></li>
 </ul>
 <ul class="nav navbar-nav navbar-right user">
   <li class="dropdown">
     <a href="#" class="dropdown-toggle" data-toggle="dropdown"><?php echo ($userdata['username']); ?><span class="caret"></span></a>
     <ul class="dropdown-menu pull-right" role="menu">
-      <li><a href="#">我的主页</a></li>
-      <li><a href="#">注销</a></li>
+      <li><a href="<?php echo ($_SESSION['urlroot']); ?>userinfo/<?php echo ($_SESSION['uid']); ?>">我的主页</a></li>
+      <li><a href="<?php echo ($_SESSION['urlroot']); ?>member/signout">注销</a></li>
 
     </ul>
   </li>
@@ -93,7 +91,7 @@
         </button>
         <p></p>
         <div class="pure-question well well-sm">
-          <a href="<?php echo ($vo["href"]); ?>"><?php echo ($vo["title"]); ?>
+          <a href="<?php echo ($_SESSION["urlroot"]); echo ($vo["href"]); ?>"><?php echo ($vo["title"]); ?>
           </a>
         </div>
       
@@ -139,17 +137,6 @@
   </div><!-- /.row -->
 
 </div>
-
-
-
-
-
-
-
-
-
-
-
 
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 <script src="http://cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>

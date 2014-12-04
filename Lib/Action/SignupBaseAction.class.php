@@ -8,11 +8,17 @@
 			$_SESSION['username']=$name;
 			$_SESSION['score']=$user['score'];
 			$_SESSION['email']=$user['email'];
+
+//语义上不通了感觉……
+			$_SESSION['urlroot']='http://localhost/app/';
+
 			return array(
 				"uid"=>$_SESSION['uid'],
 				"username"=>$_SESSION['username'],
 				"email"=>$_SESSION['email'],
-				"score"=>$_SESSION['score']
+				"score"=>$_SESSION['score'],
+				"urlroot"=>$_SESSION['urlroot'],
 				);
 		}
+
 	}

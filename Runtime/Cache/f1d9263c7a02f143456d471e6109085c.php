@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Bootstrap 101 Template</title>
+  <title>FAQBBS</title>
 
   <!-- Bootstrap -->
   <link href="http://localhost/app/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -95,11 +95,12 @@
           });
       };
 
+
       </script>
     </head>
     <body>
 
-     <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+        <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
        <div class="container">
          <div class="navbar-header">
           <button type="button" class="navbar-toggle" data-toggle="collapse" 
@@ -109,45 +110,43 @@
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button>
-        <a class="navbar-brand" href="#">FAQBBS</a>
+        <a class="navbar-brand" href="<?php echo ($_SESSION['urlroot']); ?>Question">FAQBBS</a>
 
       </div>
       <div class="collapse navbar-collapse" id="example-navbar-collapse">
         <ul class="nav navbar-nav">
 
-          <form class="navbar-form navbar-left" role="search">
+          <form class="navbar-form navbar-left" action="http://localhost/app/Search/search" method="POST" role="search">
 
-           <div class="form-group">
+     <div class="form-group">
 
-            <div class="btn-group" data-toggle="buttons">
-             <label class="btn btn-default">
-              <input type="radio" name="options" id="option1">用户
-            </label>
-            <label class="btn btn-default">
-              <input type="radio" name="options" id="option2">问题
-            </label>
-          </div>
-          <input type="text" class="form-control" placeholder="查点什么...">
+      <div class="btn-group" data-toggle="buttons">
+       <label class="btn btn-default">
+        <input type="radio" name="options" id="option1" value='0'>用户
+      </label>
+      <label class="btn btn-default">
+        <input type="radio" name="options" id="option2" value='1'>问题
+      </label>
+    </div>
+    <input type="text" class="form-control" name="searchinfo" placeholder="查点什么...">
 
-          <button class="btn btn-default" type="submit">
-           搜索
-         </button>
-       </div>
-     </form>  
+    <button class="btn btn-default" type="submit">
+     搜索
+   </button>
+ </div>
+</form>  
 
-     <li class="active"><a href="#">首页</a></li>
-     <li><a href="#">留言板</a></li>
-   </ul>
-   <ul class="nav navbar-nav navbar-right user">
-    <li class="dropdown">
-      <a href="#" class="dropdown-toggle" data-toggle="dropdown"><?php echo ($userdata['username']); ?><span class="caret"></span></a>
-      <ul class="dropdown-menu pull-right" role="menu">
-        <li><a href="#">我的主页</a></li>
-        <li><a href="#">注销</a></li>
+</ul>
+<ul class="nav navbar-nav navbar-right user">
+  <li class="dropdown">
+    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><?php echo ($userdata['username']); ?><span class="caret"></span></a>
+    <ul class="dropdown-menu pull-right" role="menu">
+      <li><a href="<?php echo ($_SESSION['urlroot']); ?>userinfo/<?php echo ($_SESSION['uid']); ?>">我的主页</a></li>
+      <li><a href="<?php echo ($_SESSION['urlroot']); ?>member/logout">注销</a></li>
 
-      </ul>
-    </li>
-  </ul>
+    </ul>
+  </li>
+</ul>
 </div>
 </div>
 </nav>
@@ -172,7 +171,7 @@
       <p></p>
       
 
-      <div class="panel panel-default">
+      <div class="panel panel-success">
         <div class="panel-heading"><?php echo ($question["title"]); ?></div>
         <div class="panel-body">
           <?php echo ($question['content']); ?>
@@ -193,14 +192,12 @@
     <hr>
     <!--若已经设置了标准答案，则显示之-->
     <div id="acanswer">
-      <?php if(isset($acanswer)): ?><h4>已采纳答案</h4>
-        <hr>
-        <div class="acanswer">
-          <?php if(isset($uservote_info[$acanswer['aid']]) AND $uservote_info[$acanswer['aid']]): ?><div class="btn-group" >
+      <?php if(isset($acanswer)): ?><div class="acanswer">
+          <?php if(isset($uservote_info[$acanswer['aid']]) AND $uservote_info[$acanswer['aid']] == 1): ?><div class="btn-group" >
               <button type="button"  data-toggle="button" class="btn btn-default active other" onclick="agr(<?php echo ($acanswer['aid']); ?>,0)" id='<?php echo ($acanswer['aid']); ?>-0'><strong>AGREE</strong> <span class="badge"><?php echo ($acanswer["agree"]); ?></span></button>
               <button type="button" data-toggle="button" class="btn btn-default other" onclick="agr(<?php echo ($acanswer['aid']); ?>,1)" id='<?php echo ($acanswer['aid']); ?>-1'><strong>DISAGREE</strong><span class="badge"><?php echo ($acanswer["disagree"]); ?></span></button>
             </div>
-            <?php elseif(isset($uservote_info[$acanswer['aid']]) AND $uservote_info[$acanswer['aid']] != true): ?>
+            <?php elseif(isset($uservote_info[$acanswer['aid']]) AND $uservote_info[$acanswer['aid']] == 0): ?>
 
             <div class="btn-group" >
               <button type="button" data-toggle="button" class="btn btn-default other" onclick="agr(<?php echo ($acanswer['aid']); ?>,0)" id='<?php echo ($acanswer['aid']); ?>-0'><strong>AGREE</strong> <span class="badge"><?php echo ($acanswer["agree"]); ?></span></button>
@@ -212,11 +209,12 @@
               <button type="button" data-toggle="button" class="btn btn-default other" onclick="agr(<?php echo ($acanswer['aid']); ?>,0)" id='<?php echo ($acanswer['aid']); ?>-0'><strong>AGREE</strong> <span class="badge"><?php echo ($acanswer["agree"]); ?></span></button>
               <button type="button" data-toggle="button" class="btn btn-default other" onclick="agr(<?php echo ($acanswer['aid']); ?>,1)" id='<?php echo ($acanswer['aid']); ?>-1'><strong>DISAGREE</strong><span class="badge"><?php echo ($acanswer["disagree"]); ?></span></button>
             </div><?php endif; ?>
-          <?php if($acanswer['uid'] == $_SESSION['uid']): ?><a href="#" class="users username">ME</a>
+          <?php if($acanswer['uid'] == $_SESSION['uid']): ?><a href="<?php echo ($_SESSION['urlroot']); ?>userinfo/<?php echo ($_SESSION['uid']); ?>" class="users username">ME</a>
             <?php else: ?>
-            <a href="#" class="users username">$acanswer['firstname'] $acanswer['lastname']</a><?php endif; ?>
+            <a href="<?php echo ($_SESSION['urlroot']); ?>userinfo/<?php echo ($acanswer['uid']); ?>" class="users username"><?php echo ($acanswer['firstname']); ?> <?php echo ($acanswer['lastname']); ?></a><?php endif; ?>
 
-          <div class="panel panel-default answer-content">
+          <div class="panel panel-info answer-content">
+            <div class="panel-heading">已采纳答案</div>
             <div class="panel-body">
               <?php echo ($acanswer['content']); ?>
             </div>
@@ -238,9 +236,9 @@
           <?php else: ?>
           <div class='others' id='<?php echo ($vo['aid']); ?>'>
             <div class="btn-group" >
-            <?php if(isset($uservote_info[$vo['aid']]) AND $uservote_info[$vo['aid']]): ?><button type="button"  data-toggle="button" class="btn btn-default active other" onclick="agr(<?php echo ($vo['aid']); ?>,0)" id='<?php echo ($vo['aid']); ?>-0'><strong>AGREE</strong> <span class="badge"><?php echo ($vo["agree"]); ?></span></button>
+            <?php if(isset($uservote_info[$vo['aid']]) AND $uservote_info[$vo['aid']] == 1): ?><button type="button"  data-toggle="button" class="btn btn-default active other" onclick="agr(<?php echo ($vo['aid']); ?>,0)" id='<?php echo ($vo['aid']); ?>-0'><strong>AGREE</strong> <span class="badge"><?php echo ($vo["agree"]); ?></span></button>
                 <button type="button" data-toggle="button" class="btn btn-default other" onclick="agr(<?php echo ($vo['aid']); ?>,1)" id='<?php echo ($vo['aid']); ?>-1'><strong>DISAGREE</strong><span class="badge"><?php echo ($vo["disagree"]); ?></span></button>
-            <?php elseif(isset($uservote_info[$vo['aid']]) AND $uservote_info[$vo['aid']] != true): ?>
+            <?php elseif(isset($uservote_info[$vo['aid']]) AND $uservote_info[$vo['aid']] == 0): ?>
 
                 <button type="button" data-toggle="button" class="btn btn-default other" onclick="agr(<?php echo ($vo['aid']); ?>,0)" id='<?php echo ($vo['aid']); ?>-0'><strong>AGREE</strong> <span class="badge"><?php echo ($vo["agree"]); ?></span></button>
                 <button type="button" data-toggle="button" class="btn btn-default active other" onclick="agr(<?php echo ($vo['aid']); ?>,1)" id='<?php echo ($vo['aid']); ?>-1'><strong>DISAGREE</strong><span class="badge"><?php echo ($vo["disagree"]); ?></span></button>
@@ -250,12 +248,10 @@
               
                 <button type="button" data-toggle="button" class="btn btn-default other" onclick="agr(<?php echo ($vo['aid']); ?>,0)" id='<?php echo ($vo['aid']); ?>-0'><strong>AGREE</strong> <span class="badge"><?php echo ($vo["agree"]); ?></span></button>
                 <button type="button" data-toggle="button" class="btn btn-default other" onclick="agr(<?php echo ($vo['aid']); ?>,1)" id='<?php echo ($vo['aid']); ?>-1'><strong>DISAGREE</strong><span class="badge"><?php echo ($vo["disagree"]); ?></span></button><?php endif; ?>
-            <?php if($cansetAns): ?><button class="btn btn-default" id="submit-setacanswer">采纳</button><?php endif; ?>
+            <?php if($cansetAns): ?><!--需要对该button添加设置采纳的调用-->
+                <button class="btn btn-default" id="submit-setacanswer" onclick="window.location='<?php echo ($_SESSION['urlroot']); ?>Answers/setAcceptedAnswer?aid=<?php echo ($vo['aid']); ?>&qid=<?php echo ($question['qid']); ?>'">采纳</button><?php endif; ?>
           </div>
             <a href="#" class="users otherusers"><?php echo ($vo['firstname']); ?> <?php echo ($vo['lastname']); ?></a>
-            
-
-
           </div><?php endif; ?>
         <div class="panel panel-default answer-content">
           <div class="panel-body">
@@ -277,7 +273,7 @@
 
   <div class="col-sm-3 col-sm-offset-1 blog-sidebar">
     <div class="sidebar-module sidebar-module-inset">
-      <form role="form" action="http://localhost/app/AskQuestion" method="post">
+      <form role="form" action="<?php echo ($_SESSION['urlroot']); ?>AskQuestion" method="post">
         <button type="submit" class="btn btn-default btn-lg">提问</button>
       </form>
     </div>

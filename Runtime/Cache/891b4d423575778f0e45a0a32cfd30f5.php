@@ -56,6 +56,8 @@ var url="http://localhost/app/Index/ajaxtest";
 xmlHttp.onreadystatechange=stateChanged;
 xmlHttp.open("GET",url,true);
 xmlHttp.send(null);
+
+
 }
 
 

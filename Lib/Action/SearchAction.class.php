@@ -1,26 +1,18 @@
 <?php
-	class Search extends Action{
+	class SearchAction extends Action{
 		public function search(){
 			$search_type=$this->_param('options');
+			$info=$this->_param('searchinfo');
 			if($search_type=='0'){
-				$this->searchUser();
+				$userinfo=new UserInfoAction();
+				//dump($info);
+				$userinfo->userInfoList($info);
 			}else{
-				$this->searchQuestion();
+//				dump('search question');
+				//dump($info);
+				$question=new QuestionAction();
+				$question->questionList($info);
 			}
 		}
 
-		private function searchUser($searchtxt){
-//搜索用户，获取用户list
-
-//调用用户list显示界面
-			new UserInfoAction()->userInfoList($userinfolist);
-		}
-
-		private function searchQuestion($searchtxt){
-//搜索问题，获取问题内容
-
-
-//调用问题显示的界面
-			new QuestionAction()->showTargetedQeustion($questionlist);
-		}
 	}

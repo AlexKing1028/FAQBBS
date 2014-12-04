@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Bootstrap 101 Template</title>
+  <title>FAQBBS</title>
 
   <!-- Bootstrap -->
   <link href="http://localhost/app/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -49,7 +49,7 @@
     </head>
     <body>
 
-     <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+   <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
        <div class="container">
          <div class="navbar-header">
           <button type="button" class="navbar-toggle" data-toggle="collapse" 
@@ -59,25 +59,25 @@
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button>
-        <a class="navbar-brand" href="#">FAQBBS</a>
+        <a class="navbar-brand" href="{$_SESSION['urlroot']}Question">FAQBBS</a>
 
       </div>
       <div class="collapse navbar-collapse" id="example-navbar-collapse">
         <ul class="nav navbar-nav">
 
-          <form class="navbar-form navbar-left" role="search">
+          <form class="navbar-form navbar-left" action="http://localhost/app/Search/search" method="POST" role="search">
 
      <div class="form-group">
 
       <div class="btn-group" data-toggle="buttons">
        <label class="btn btn-default">
-        <input type="radio" name="options" id="option1">用户
+        <input type="radio" name="options" id="option1" value='0'>用户
       </label>
       <label class="btn btn-default">
-        <input type="radio" name="options" id="option2">问题
+        <input type="radio" name="options" id="option2" value='1'>问题
       </label>
     </div>
-    <input type="text" class="form-control" placeholder="查点什么...">
+    <input type="text" class="form-control" name="searchinfo" placeholder="查点什么...">
 
     <button class="btn btn-default" type="submit">
      搜索
@@ -85,15 +85,13 @@
  </div>
 </form>  
 
-<li class="active"><a href="#">首页</a></li>
-<li><a href="#">留言板</a></li>
 </ul>
 <ul class="nav navbar-nav navbar-right user">
   <li class="dropdown">
     <a href="#" class="dropdown-toggle" data-toggle="dropdown">{$userdata['username']}<span class="caret"></span></a>
     <ul class="dropdown-menu pull-right" role="menu">
-      <li><a href="#">我的主页</a></li>
-      <li><a href="#">注销</a></li>
+      <li><a href="{$_SESSION['urlroot']}userinfo/{$_SESSION['uid']}">我的主页</a></li>
+      <li><a href="{$_SESSION['urlroot']}member/logout">注销</a></li>
 
     </ul>
   </li>
@@ -101,6 +99,7 @@
 </div>
 </div>
 </nav>
+
 
 <div class="container content">
 
